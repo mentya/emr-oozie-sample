@@ -35,12 +35,12 @@ then
 #     </property>' >> /tmp/oozie-site.xml.new"
     sudo echo '
     <property>
-		<name>hadoop.service.ProxyUserService.proxyuser.hadoop.hosts</name>
+		<name>hadoop.proxyuser.hadoop.hosts</name>
 		<value>*</value>
     </property>
 
     <property>
-		<name>hadoop.service.ProxyUserService.proxyuser.hadoop.groups</name>
+		<name>hadoop.proxyuser.hadoop.groups</name>
   		<value>*</value>
     </property>
 </configuration>' >> /tmp/oozie-site.xml.new
