@@ -27,28 +27,21 @@ then
 	
 	# add config
 	sudo grep -v '/configuration' /opt/oozie-4.0.1/conf/oozie-site.xml > /tmp/oozie-site.xml.new
-# 	sudo sh -c "echo ' 
-# 	<property>
-# 		<name>oozie.services.ext</name>
-#     	<value>org.apache.oozie.service.HadoopAccessorService</value>
-#     	<description>To add/replace services defined in 'oozie.services' with custom implementations.Class names must be separated by commas.</description>
-#     </property>' >> /tmp/oozie-site.xml.new"
-    sudo echo '
-    <property>
-		<name>hadoop.proxyuser.hadoop.hosts</name>
-		<value>*</value>
-    </property>
 
-    <property>
-		<name>hadoop.proxyuser.hadoop.groups</name>
-  		<value>*</value>
-    </property>
-</configuration>' >> /tmp/oozie-site.xml.new
+	sudo echo '<property><name>hadoop.proxyuser.hadoop.hosts</name><value>*</value></property>' >> /tmp/oozie-site.xml.new
+	sudo echo '<property><name>hadoop.proxyuser.hadoop.groups</name><value>*</value></property>' >> /tmp/oozie-site.xml.new
+	sudo echo '</configuration>' >> /tmp/oozie-site.xml.new
+	
 	sudo mv /opt/oozie-4.0.1/conf/oozie-site.xml /opt/oozie-4.0.1/conf/oozie-site.xml.orig
 	sudo mv /tmp/oozie-site.xml.new /opt/oozie-4.0.1/conf/oozie-site.xml
 
+	# set user to hadoop:hadoop
  	sudo chown -R hadoop:hadoop /opt/oozie-4.0.1
 	
+	# make oozie read the hadoop configuration files
+	sudo -u hadoop mv /home/hadoop/oozie/conf/hadoop-conf /home/hadoop/oozie/conf/hadoop-conf-bkp
+	sudo -u hadoop ln -s /home/hadoop/etc/hadoop/ /home/hadoop/oozie/conf/hadoop-conf
+
 	# create sym link in the home folder
 	sudo -u hadoop ln -s /opt/oozie-4.0.1 /home/hadoop/oozie
 	
@@ -56,10 +49,13 @@ then
 	sudo -u hadoop mkdir -p /opt/oozie-4.0.1/libext
 	sudo -u hadoop cp /tmp/ext-2.2.zip /opt/oozie-4.0.1/libext/
 	sudo -u hadoop cp /opt/oozie-4.0.1/libtools/* /opt/oozie-4.0.1/libext/
+	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20-SNAPSHOT.jar /opt/oozie-4.0.1/libext/
+	
 	sudo -u hadoop /opt/oozie-4.0.1/bin/oozie-setup.sh prepare-war
 	
-	# create sharelib
-	sudo -u hadoop /opt/oozie-4.0.1//bin/oozie-setup.sh sharelib create -fs hdfs://`hostname`:9000
+	# create sharelib (not strictly necessary)
+	# sudo -u hadoop /opt/oozie-4.0.1//bin/oozie-setup.sh sharelib create -fs hdfs://`hostname`:9000
+	
 	# create DB
 	sudo -u hadoop /opt/oozie-4.0.1//bin/oozie-setup.sh db create -run
 
