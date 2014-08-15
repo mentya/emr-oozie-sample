@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function jsonval {
-    temp=`echo $json | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w $prop | cut -d ":" -f 2`
-    echo ${temp##*|}
+	temp=`echo $json | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w $prop | cut -d ":" -f 2`
+	echo ${temp##*|}
 }
 
 json=`cat /mnt/var/lib/info/instance.json`
@@ -38,12 +38,12 @@ then
 	# set user to hadoop:hadoop
  	sudo chown -R hadoop:hadoop /opt/oozie-4.0.1
 	
+	# create sym link in the home folder
+	sudo -u hadoop ln -s /opt/oozie-4.0.1 /home/hadoop/oozie
+
 	# make oozie read the hadoop configuration files
 	sudo -u hadoop mv /home/hadoop/oozie/conf/hadoop-conf /home/hadoop/oozie/conf/hadoop-conf-bkp
 	sudo -u hadoop ln -s /home/hadoop/etc/hadoop/ /home/hadoop/oozie/conf/hadoop-conf
-
-	# create sym link in the home folder
-	sudo -u hadoop ln -s /opt/oozie-4.0.1 /home/hadoop/oozie
 	
 	# copy (EMR?) jars to oozie webapp
 	sudo -u hadoop mkdir -p /opt/oozie-4.0.1/libext
@@ -57,11 +57,10 @@ then
 	# sudo -u hadoop /opt/oozie-4.0.1//bin/oozie-setup.sh sharelib create -fs hdfs://`hostname`:9000
 	
 	# create DB
-	sudo -u hadoop /opt/oozie-4.0.1//bin/oozie-setup.sh db create -run
+	sudo -u hadoop /opt/oozie-4.0.1/bin/oozie-setup.sh db create -run
 
 	# startup oozie 
-	sudo -u hadoop /opt/oozie-4.0.1//bin/oozied.sh start
-
+	sudo -u hadoop /opt/oozie-4.0.1/bin/oozied.sh start
 else
-  echo "not master... skipping"
+	echo "not master... skipping"
 fi
