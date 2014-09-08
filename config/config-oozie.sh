@@ -9,6 +9,8 @@ json=`cat /mnt/var/lib/info/instance.json`
 prop='isMaster'
 ismaster=`jsonval`
 
+set -e
+
 if [[ "$ismaster" -eq "true" ]]
 then
 	# download files
