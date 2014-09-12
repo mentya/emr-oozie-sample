@@ -52,6 +52,7 @@ then
 	sudo -u hadoop cp /tmp/ext-2.2.zip /opt/oozie-4.0.1/libext/
 	sudo -u hadoop cp /opt/oozie-4.0.1/libtools/* /opt/oozie-4.0.1/libext/
 	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20-SNAPSHOT.jar /opt/oozie-4.0.1/libext/
+	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/jets3t-0.9.0.jar /opt/oozie-4.0.1/libext/
 	
 	sudo -u hadoop /opt/oozie-4.0.1/bin/oozie-setup.sh prepare-war
 	
