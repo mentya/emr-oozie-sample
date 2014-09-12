@@ -29,9 +29,9 @@ then
 	
 	# add config
 	sudo grep -v '/configuration' /opt/oozie-4.0.1/conf/oozie-site.xml > /tmp/oozie-site.xml.new
-
 	sudo echo '<property><name>hadoop.proxyuser.hadoop.hosts</name><value>*</value></property>' >> /tmp/oozie-site.xml.new
 	sudo echo '<property><name>hadoop.proxyuser.hadoop.groups</name><value>*</value></property>' >> /tmp/oozie-site.xml.new
+	sudo echo '<property><name>oozie.service.HadoopAccessorService.supported.filesystems</name><value>hdfs,s3,s3n,hftp,webhdfs</value></property>' >> /tmp/oozie-site.xml.new
 	sudo echo '</configuration>' >> /tmp/oozie-site.xml.new
 	
 	sudo mv /opt/oozie-4.0.1/conf/oozie-site.xml /opt/oozie-4.0.1/conf/oozie-site.xml.orig
