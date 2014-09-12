@@ -47,12 +47,19 @@ then
 	sudo -u hadoop mv /home/hadoop/oozie/conf/hadoop-conf /home/hadoop/oozie/conf/hadoop-conf-bkp
 	sudo -u hadoop ln -s /home/hadoop/etc/hadoop/ /home/hadoop/oozie/conf/hadoop-conf
 	
-	# copy (EMR?) jars to oozie webapp
+	
 	sudo -u hadoop mkdir -p /opt/oozie-4.0.1/libext
 	sudo -u hadoop cp /tmp/ext-2.2.zip /opt/oozie-4.0.1/libext/
 	sudo -u hadoop cp /opt/oozie-4.0.1/libtools/* /opt/oozie-4.0.1/libext/
+	# copy EMR hadoop jars to oozie webapp
+	# sudo -u hadoop rm -fr /opt/oozie-4.0.1/libext/hadoop-*2.4.0.jar
+	# sudo -u hadoop find /home/hadoop/share/hadoop/ -name hadoop-*2.4.0.jar -exec cp {} /opt/oozie-4.0.1/libext/ \;
 	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20-SNAPSHOT.jar /opt/oozie-4.0.1/libext/
-	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/jets3t-0.9.0.jar /opt/oozie-4.0.1/libext/
+	
+	# make Oozie understand EmrFileSystem
+	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/EmrS3DistCp-1.0.jar /opt/oozie-4.0.1/libext/
+	sudo -u hadoop cp /usr/share/aws/emr/emr-fs/lib/*.jar /opt/oozie-4.0.1/libext/
+	# sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/jets3t-0.9.0.jar /opt/oozie-4.0.1/libext/
 	
 	sudo -u hadoop /opt/oozie-4.0.1/bin/oozie-setup.sh prepare-war
 	
