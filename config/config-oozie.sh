@@ -15,18 +15,16 @@ if [[ "$ismaster" -eq "true" ]]
 then
 	# download files
 	cd /tmp
-	wget --no-check-certificate https://github.com/davideanastasia/emr-oozie-sample/releases/download/v4.0.1-2/oozie-4.0.1-distro.2.tar.gz
-	
-	# the new version of the distro package contains already ext-2.2.zip, so we don't need to download it
-	# wget http://extjs.com/deploy/ext-2.2.zip
-	# chmod a+x ext-2.2.zip
+	wget --no-check-certificate https://github.com/davideanastasia/emr-oozie-sample/releases/download/v4.0.1/oozie-4.0.1-distro.tar.gz
+	wget http://extjs.com/deploy/ext-2.2.zip
+	chmod a+x ext-2.2.zip
 	
 	#
 	# unpack oozie and setup
 	#
 	sudo mkdir -p /opt
 	cd /opt
-	sudo tar -zxvf /tmp/oozie-4.0.1-distro.2.tar.gz
+	sudo tar -zxvf /tmp/oozie-4.0.1-distro.tar.gz
 	cd /opt/oozie-4.0.1/
 	
 	# add config
@@ -50,9 +48,8 @@ then
 	sudo -u hadoop ln -s /home/hadoop/etc/hadoop/ /home/hadoop/oozie/conf/hadoop-conf
 	
 	
-	# no need to create the folder, as it is already available in the tar.gz
-	# sudo -u hadoop mkdir -p /opt/oozie-4.0.1/libext
-	# sudo -u hadoop cp /tmp/ext-2.2.zip /opt/oozie-4.0.1/libext/
+	sudo -u hadoop mkdir -p /opt/oozie-4.0.1/libext
+	sudo -u hadoop cp /tmp/ext-2.2.zip /opt/oozie-4.0.1/libext/
 	sudo -u hadoop cp /opt/oozie-4.0.1/libtools/* /opt/oozie-4.0.1/libext/
 	# copy EMR hadoop jars to oozie webapp
 	# sudo -u hadoop rm -fr /opt/oozie-4.0.1/libext/hadoop-*2.4.0.jar
