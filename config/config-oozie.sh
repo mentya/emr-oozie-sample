@@ -16,7 +16,7 @@ then
 	# download files
 	cd /tmp
 	wget --no-check-certificate https://github.com/davideanastasia/emr-oozie-sample/releases/download/v4.0.1/oozie-4.0.1-distro.tar.gz
-	wget http://extjs.com/deploy/ext-2.2.zip
+	wget --no-check-certificate https://github.com/davideanastasia/emr-oozie-sample/releases/download/v4.0.1/ext-2.2.zip
 	chmod a+x ext-2.2.zip
 	
 	#
