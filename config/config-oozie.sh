@@ -57,8 +57,8 @@ then
 	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/hadoop-lzo-0.4.20-SNAPSHOT.jar /opt/oozie-4.0.1/libext/
 	
 	# make Oozie understand EmrFileSystem
-	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/EmrS3DistCp-1.0.jar /opt/oozie-4.0.1/libext/
-	sudo -u hadoop cp /usr/share/aws/emr/emr-fs/lib/*.jar /opt/oozie-4.0.1/libext/
+	sudo -u hadoop cp /home/hadoop/share/hadoop/common/lib/s3-dist-cp-1.2.0.jar /opt/oozie-4.0.1/libext/
+	sudo -u hadoop cp /usr/share/aws/emr/emrfs/lib/*.jar /opt/oozie-4.0.1/libext/
 	# removing clashing JARs
 	sudo -u hadoop rm -f /opt/oozie-4.0.1/libext/jsp-api-*
 	sudo -u hadoop rm -f /opt/oozie-4.0.1/libext/jasper-*
